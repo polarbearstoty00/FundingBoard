@@ -35,6 +35,10 @@ if st.session_state["current_page"] == "투자 내역 입력":
             st.rerun()
 
 elif st.session_state["current_page"] == "회차별 상환 내역 입력":
+    if st.button("⬅ 이전 페이지로 이동"):
+        st.session_state["current_page"] = "투자 내역 입력"
+        st.rerun()
+    
     st.subheader("📊 투자 내역")
     st.dataframe(st.session_state["investment_data"], hide_index=True)
     
@@ -78,5 +82,12 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     if st.button("저장"):
         st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
         st.session_state["new_repayments"] = []
-        st.success("✅ 회차별 상환 내역이 저장되었습니다!")
+        st.success("✅ 회차별 상환 내역이 저장되었습니다! 수정이 가능합니다.")
         st.rerun()
+    
+    if not repayment_df.empty:
+        st.subheader("🔧 상환 내역 수정")
+        edited_df = st.data_editor(repayment_df, key="edit_repayment")
+        if st.button("수정 저장"):
+            st.session_state["repayment_data"] = edited_df.to_dict(orient="records")
+            st.success("✅ 수정된 내역이 저장되었습니다!")
