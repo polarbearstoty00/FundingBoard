@@ -62,6 +62,8 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     # 편집 모드일 때 기존 데이터 편집 인터페이스 표시
     if st.session_state["edit_mode"]:
         st.subheader("✏️ 회차별 상환 내역 수정")
+
+        indices_to_delete = []
         
         for i, repayment in enumerate(st.session_state["edit_repayments"]):
             col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1, 2, 2, 2, 2, 2, 1, 1])
