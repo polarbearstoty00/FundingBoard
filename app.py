@@ -14,7 +14,7 @@ if "edit_mode" not in st.session_state:
 st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 st.title("📌 P2P 투자 관리")
 
-if st.session_state["current_page"] == "투자 내역 입력"]:
+if st.session_state["current_page"] == "투자 내역 입력":
     # 투자 내역 입력 폼
     with st.form("investment_form"):
         platform = st.text_input("서비스명 (플랫폼명)")
