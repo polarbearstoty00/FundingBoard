@@ -34,7 +34,7 @@ if st.session_state["current_page"] == "투자 내역 입력":
             st.session_state["current_page"] = "회차별 상환 내역 입력"
             st.rerun()
 
-elif st.session_state["current_page"] == "회차별 상환 내역 입력":
+elif st.session_state["current_page"] == "회차별 상환 내역 입력"]:
     st.subheader("📊 투자 내역")
     st.dataframe(st.session_state["investment_data"], hide_index=True)
     
@@ -64,7 +64,7 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
         with col7:
             repayment["상환완료"] = st.checkbox("", key=f"repayment_status_{i}", value=repayment["상환완료"])
     
-    col1, col2 = st.columns([1, 1])
+    col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
         if st.button("➕ 추가"):
             new_repayment = {"회차": len(st.session_state["new_repayments"]) + 1, "지급예정일": None, "원금": 0, "이자": 0, "세금": 0, "수수료": 0, "상환완료": False}
@@ -74,6 +74,10 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
         if st.button("➖ 삭제") and st.session_state["new_repayments"]:
             st.session_state["new_repayments"].pop()
             st.rerun()
+    with col3:
+        if st.session_state.get("show_edit_button", False) and st.button("✏ 수정"):
+            st.session_state["current_page"] = "수정 모드"
+            st.rerun()
     
     if st.button("저장"):
         st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
@@ -81,9 +85,3 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
         st.success("✅ 회차별 상환 내역이 저장되었습니다!")
         st.session_state["show_edit_button"] = True  # 수정 버튼 활성화
         st.rerun()
-    
-    # 저장 후에만 수정 버튼이 보이도록 설정
-    if st.session_state.get("show_edit_button", False):
-        if st.button("✏ 수정"):
-            st.session_state["current_page"] = "수정 모드"
-            st.rerun()
