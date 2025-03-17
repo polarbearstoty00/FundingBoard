@@ -32,11 +32,11 @@ if st.session_state["current_page"] == "투자 내역 입력":
             st.session_state["current_page"] = "회차별 상환 내역 입력"
             st.rerun()
 
-    # 저장된 투자 내역 출력
+# 저장된 투자 내역 출력
+elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     st.subheader("📊 투자 내역")
     st.dataframe(st.session_state["investment_data"])
-
-elif st.session_state["current_page"] == "회차별 상환 내역 입력":
+    
     st.subheader("💰 회차별 상환 내역 입력")
     with st.form("repayment_form"):
         period_num = st.number_input("회차", min_value=1, step=1)
