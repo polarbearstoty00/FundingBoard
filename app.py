@@ -89,15 +89,19 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
             for idx in sorted(indices_to_delete, reverse=True):
                 del st.session_state["edit_repayments"][idx]
             st.rerun()
-        
-        col1, col2 = st.columns([1, 1])
+            
+        col1, col2, col3 = st.columns([1, 1, 1])
         with col1:
+            if st.button("➕ 추가"):
+                st.session_state["edit_repayments"].append({"회차": 1, "지급예정일": None, "원금": 0, "이자": 0, "세금": 0, "수수료": 0, "상환완료": False})
+                st.rerun()
+        with col2:
             if st.button("✔️ 수정 완료"):
                 st.session_state["repayment_data"] = st.session_state["edit_repayments"].copy()
                 st.session_state["edit_mode"] = False
                 st.success("✅ 회차별 상환 내역이 수정되었습니다!")
                 st.rerun()
-        with col2:
+        with col3:
             if st.button("❌ 취소"):
                 st.session_state["edit_mode"] = False
                 st.rerun()
