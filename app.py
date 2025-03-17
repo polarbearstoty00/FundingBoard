@@ -35,10 +35,6 @@ if st.session_state["current_page"] == "투자 내역 입력":
             st.rerun()
 
 elif st.session_state["current_page"] == "회차별 상환 내역 입력":
-    if st.button("⬅ 이전 페이지로 이동"):
-        st.session_state["current_page"] = "투자 내역 입력"
-        st.rerun()
-    
     st.subheader("📊 투자 내역")
     st.dataframe(st.session_state["investment_data"], hide_index=True)
     
@@ -46,28 +42,27 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     columns = ["회차", "지급예정일", "원금", "이자", "세금", "수수료", "상환완료"]
     repayment_df = pd.DataFrame(st.session_state["repayment_data"], columns=columns)
     
-    edited_df = st.data_editor(repayment_df, key="edit_repayment")
+    st.dataframe(repayment_df, hide_index=True)
     
     if "new_repayments" not in st.session_state:
         st.session_state["new_repayments"] = []
     
-    # 새로운 회차 입력 폼 출력
     for i, repayment in enumerate(st.session_state["new_repayments"]):
         col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 2, 2, 2, 2, 2, 1])
         with col1:
-            repayment["회차"] = st.number_input("회차", min_value=1, step=1, key=f"period_num_{i}", value=repayment["회차"])
+            repayment["회차"] = st.number_input(f"", min_value=1, step=1, key=f"period_num_{i}", value=repayment["회차"])
         with col2:
-            repayment["지급예정일"] = st.date_input("지급예정일", key=f"due_date_{i}", value=repayment["지급예정일"])
+            repayment["지급예정일"] = st.date_input("", key=f"due_date_{i}", value=repayment["지급예정일"])
         with col3:
-            repayment["원금"] = st.number_input("원금", min_value=0, step=10000, key=f"principal_{i}", value=repayment["원금"])
+            repayment["원금"] = st.number_input("", min_value=0, step=10000, key=f"principal_{i}", value=repayment["원금"])
         with col4:
-            repayment["이자"] = st.number_input("이자", min_value=0, step=1000, key=f"interest_{i}", value=repayment["이자"])
+            repayment["이자"] = st.number_input("", min_value=0, step=1000, key=f"interest_{i}", value=repayment["이자"])
         with col5:
-            repayment["세금"] = st.number_input("세금", min_value=0, step=100, key=f"tax_{i}", value=repayment["세금"])
+            repayment["세금"] = st.number_input("", min_value=0, step=100, key=f"tax_{i}", value=repayment["세금"])
         with col6:
-            repayment["수수료"] = st.number_input("수수료", min_value=0, step=100, key=f"fee_{i}", value=repayment["수수료"])
+            repayment["수수료"] = st.number_input("", min_value=0, step=100, key=f"fee_{i}", value=repayment["수수료"])
         with col7:
-            repayment["상환완료"] = st.checkbox("완료", key=f"repayment_status_{i}", value=repayment["상환완료"])
+            repayment["상환완료"] = st.checkbox("", key=f"repayment_status_{i}", value=repayment["상환완료"])
     
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -81,7 +76,7 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
             st.rerun()
     
     if st.button("저장"):
-        st.session_state["repayment_data"] = edited_df.to_dict(orient="records")
+        st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
         st.session_state["new_repayments"] = []
-        st.success("✅ 회차별 상환 내역이 저장되었습니다! 수정이 가능합니다.")
+        st.success("✅ 회차별 상환 내역이 저장되었습니다!")
         st.rerun()
