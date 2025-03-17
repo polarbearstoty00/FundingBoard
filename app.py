@@ -67,7 +67,7 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     col1, col2 = st.columns([1, 1])
     with col1:
         if st.button("➕ 추가"):
-            st.session_state["new_repayments"].append()
+            st.session_state["new_repayments"].append({"회차": 1, "지급예정일": None, "원금": 0, "이자": 0, "세금": 0, "수수료": 0, "상환완료": False})
             st.rerun()
     with col2:
         if st.button("➖ 삭제") and st.session_state["new_repayments"]:
