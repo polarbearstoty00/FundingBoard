@@ -14,7 +14,7 @@ if "edit_mode" not in st.session_state:
 st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 st.title("📌 P2P 투자 관리")
 
-if st.session_state["current_page"] == "투자 내역 입력":
+if st.session_state["current_page"] == "투자 내역 입력"]:
     # 투자 내역 입력 폼
     with st.form("investment_form"):
         platform = st.text_input("서비스명 (플랫폼명)")
@@ -36,7 +36,7 @@ if st.session_state["current_page"] == "투자 내역 입력":
             st.session_state["current_page"] = "회차별 상환 내역 입력"
             st.rerun()
 
-elif st.session_state["current_page"] == "회차별 상환 내역 입력":
+elif st.session_state["current_page"] == "회차별 상환 내역 입력"]:
     st.subheader("📊 투자 내역")
     st.dataframe(st.session_state["investment_data"], hide_index=True)
     
@@ -44,25 +44,25 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     columns = ["회차", "지급예정일", "원금", "이자", "세금", "수수료", "상환완료"]
     repayment_df = pd.DataFrame(st.session_state["repayment_data"], columns=columns)
     
-    if not st.session_state["edit_mode"]:
-        st.dataframe(repayment_df, hide_index=True)
-    else:
-        for i in range(len(st.session_state["repayment_data"])):
+    if st.session_state["edit_mode"]:
+        for i, repayment in enumerate(st.session_state["repayment_data"]):
             col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 2, 2, 2, 2, 2, 1])
             with col1:
-                st.write(st.session_state["repayment_data"][i]["회차"])
+                repayment["회차"] = st.number_input(f"", min_value=1, step=1, key=f"period_num_{i}", value=repayment["회차"])
             with col2:
-                st.session_state["repayment_data"][i]["지급예정일"] = st.date_input("", key=f"due_date_{i}", value=st.session_state["repayment_data"][i]["지급예정일"])
+                repayment["지급예정일"] = st.date_input("", key=f"due_date_{i}", value=repayment["지급예정일"])
             with col3:
-                st.session_state["repayment_data"][i]["원금"] = st.number_input("", min_value=0, step=10000, key=f"principal_{i}", value=st.session_state["repayment_data"][i]["원금"])
+                repayment["원금"] = st.number_input("", min_value=0, step=10000, key=f"principal_{i}", value=repayment["원금"])
             with col4:
-                st.session_state["repayment_data"][i]["이자"] = st.number_input("", min_value=0, step=1000, key=f"interest_{i}", value=st.session_state["repayment_data"][i]["이자"])
+                repayment["이자"] = st.number_input("", min_value=0, step=1000, key=f"interest_{i}", value=repayment["이자"])
             with col5:
-                st.session_state["repayment_data"][i]["세금"] = st.number_input("", min_value=0, step=100, key=f"tax_{i}", value=st.session_state["repayment_data"][i]["세금"])
+                repayment["세금"] = st.number_input("", min_value=0, step=100, key=f"tax_{i}", value=repayment["세금"])
             with col6:
-                st.session_state["repayment_data"][i]["수수료"] = st.number_input("", min_value=0, step=100, key=f"fee_{i}", value=st.session_state["repayment_data"][i]["수수료"])
+                repayment["수수료"] = st.number_input("", min_value=0, step=100, key=f"fee_{i}", value=repayment["수수료"])
             with col7:
-                st.session_state["repayment_data"][i]["상환완료"] = st.checkbox("", key=f"repayment_status_{i}", value=st.session_state["repayment_data"][i]["상환완료"])
+                repayment["상환완료"] = st.checkbox("", key=f"repayment_status_{i}", value=repayment["상환완료"])
+    else:
+        st.dataframe(repayment_df, hide_index=True)
     
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
