@@ -36,7 +36,7 @@ if st.session_state["current_page"] == "투자 내역 입력":
             st.session_state["current_page"] = "회차별 상환 내역 입력"
             st.rerun()
 
-elif st.session_state["current_page"] == "회차별 상환 내역 입력"]:
+elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     st.subheader("📊 투자 내역")
     st.dataframe(st.session_state["investment_data"], hide_index=True)
     
