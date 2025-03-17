@@ -79,6 +79,14 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
                 repayment["수수료"] = st.number_input("수수료", min_value=0, step=100, key=f"edit_fee_{i}", value=repayment["수수료"])
             with col7:
                 repayment["상환완료"] = st.checkbox("완료", key=f"edit_repayment_status_{i}", value=repayment["상환완료"])
+            with col8:
+                if st.button("🗑 삭제", key=f"delete_repayment_{i}"):
+                    indices_to_delete.append(i)
+        
+        if indices_to_delete:
+            for idx in sorted(indices_to_delete, reverse=True):
+                del st.session_state["edit_repayments"][idx]
+            st.rerun()
         
         col1, col2 = st.columns([1, 1])
         with col1:
