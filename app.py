@@ -46,27 +46,10 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     columns = ["회차", "지급예정일", "원금", "이자", "세금", "수수료", "상환완료"]
     repayment_df = pd.DataFrame(st.session_state["repayment_data"], columns=columns)
     
-    st.dataframe(repayment_df, hide_index=True)
+    edited_df = st.data_editor(repayment_df, key="edit_repayment")
     
     if "new_repayments" not in st.session_state:
         st.session_state["new_repayments"] = []
-    
-    for i, repayment in enumerate(st.session_state["new_repayments"]):
-        col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 2, 2, 2, 2, 2, 1])
-        with col1:
-            repayment["회차"] = st.number_input(f"", min_value=1, step=1, key=f"period_num_{i}", value=repayment["회차"])
-        with col2:
-            repayment["지급예정일"] = st.date_input("", key=f"due_date_{i}", value=repayment["지급예정일"])
-        with col3:
-            repayment["원금"] = st.number_input("", min_value=0, step=10000, key=f"principal_{i}", value=repayment["원금"])
-        with col4:
-            repayment["이자"] = st.number_input("", min_value=0, step=1000, key=f"interest_{i}", value=repayment["이자"])
-        with col5:
-            repayment["세금"] = st.number_input("", min_value=0, step=100, key=f"tax_{i}", value=repayment["세금"])
-        with col6:
-            repayment["수수료"] = st.number_input("", min_value=0, step=100, key=f"fee_{i}", value=repayment["수수료"])
-        with col7:
-            repayment["상환완료"] = st.checkbox("", key=f"repayment_status_{i}", value=repayment["상환완료"])
     
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -80,14 +63,7 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
             st.rerun()
     
     if st.button("저장"):
-        st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
+        st.session_state["repayment_data"] = edited_df.to_dict(orient="records")
         st.session_state["new_repayments"] = []
         st.success("✅ 회차별 상환 내역이 저장되었습니다! 수정이 가능합니다.")
         st.rerun()
-    
-    if not repayment_df.empty:
-        st.subheader("🔧 상환 내역 수정")
-        edited_df = st.data_editor(repayment_df, key="edit_repayment")
-        if st.button("수정 저장"):
-            st.session_state["repayment_data"] = edited_df.to_dict(orient="records")
-            st.success("✅ 수정된 내역이 저장되었습니다!")
