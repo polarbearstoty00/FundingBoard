@@ -38,17 +38,36 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     st.dataframe(st.session_state["investment_data"])
     
     st.subheader("💰 회차별 상환 내역 입력")
-    with st.form("repayment_form"):
-        period_num = st.number_input("회차", min_value=1, step=1)
-        due_date = st.date_input("지급예정일")
-        principal = st.number_input("원금", min_value=0, step=10000)
-        interest = st.number_input("이자", min_value=0, step=1000)
-        tax = st.number_input("세금", min_value=0, step=100)
-        fee = st.number_input("수수료", min_value=0, step=100)
-        net_income = principal + interest - tax - fee
-        repayment_status = st.checkbox("상환 완료")
-        
-        repayment_submitted = st.form_submit_button("저장")
-        
-        if repayment_submitted:
-            st.success("✅ 회차별 내역이 저장되었습니다!")
+    columns = ["회차", "지급예정일", "원금", "이자", "세금", "수수료", "상환완료"]
+    repayment_df = pd.DataFrame(st.session_state["repayment_data"], columns=columns)
+    
+    st.dataframe(repayment_df)
+    
+    col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 2, 2, 2, 2, 2, 1])
+    with col1:
+        period_num = st.number_input("회차", min_value=1, step=1, key="period_num")
+    with col2:
+        due_date = st.date_input("지급예정일", key="due_date")
+    with col3:
+        principal = st.number_input("원금", min_value=0, step=10000, key="principal")
+    with col4:
+        interest = st.number_input("이자", min_value=0, step=1000, key="interest")
+    with col5:
+        tax = st.number_input("세금", min_value=0, step=100, key="tax")
+    with col6:
+        fee = st.number_input("수수료", min_value=0, step=100, key="fee")
+    with col7:
+        repayment_status = st.checkbox("완료", key="repayment_status")
+    
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("➕ 추가"):
+            new_repayment = [
+                period_num, due_date, principal, interest, tax, fee, repayment_status
+            ]
+            st.session_state["repayment_data"].append(new_repayment)
+            st.rerun()
+    with col2:
+        if st.button("➖ 삭제") and st.session_state["repayment_data"]:
+            st.session_state["repayment_data"].pop()
+            st.rerun()
