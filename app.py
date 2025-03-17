@@ -51,7 +51,7 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
     # 편집 모드 토글 버튼
     col1, col2, col3 = st.columns([1, 1, 1])
     with col3:
-        if st.session_state["repayment_data"] and st.button("✏ 수정"):
+        if st.session_state["repayment_data"] and st.button("🪄 수정"):
             st.session_state["edit_mode"] = not st.session_state["edit_mode"]
             if st.session_state["edit_mode"]:
                 # 편집 모드를 활성화할 때 기존 데이터를 편집용 상태로 복사
