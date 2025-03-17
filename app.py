@@ -64,7 +64,7 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
         st.subheader("✏️ 회차별 상환 내역 수정")
         
         for i, repayment in enumerate(st.session_state["edit_repayments"]):
-            col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 2, 2, 2, 2, 2, 1])
+            col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1, 2, 2, 2, 2, 2, 1, 1])
             with col1:
                 repayment["회차"] = st.number_input(f"회차", min_value=1, step=1, key=f"edit_period_num_{i}", value=repayment["회차"])
             with col2:
