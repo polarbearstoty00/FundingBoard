@@ -79,9 +79,11 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
         st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
         st.session_state["new_repayments"] = []
         st.success("✅ 회차별 상환 내역이 저장되었습니다!")
+        st.session_state["show_edit_button"] = True  # 수정 버튼 활성화
         st.rerun()
     
-    # 수정 버튼 추가
-    if st.button("✏ 수정"):
-        st.session_state["current_page"] = "수정 모드"
-        st.rerun()
+    # 저장 후에만 수정 버튼이 보이도록 설정
+    if st.session_state.get("show_edit_button", False):
+        if st.button("✏ 수정"):
+            st.session_state["current_page"] = "수정 모드"
+            st.rerun()
