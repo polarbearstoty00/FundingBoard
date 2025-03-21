@@ -26,23 +26,22 @@ if st.session_state.uploaded_files:
         df1 = pd.read_excel(xls, sheet_name='세부 투자내역(투자진행중)')
         df2 = pd.read_excel(xls, sheet_name='세부 투자내역(투자진행중) 회차별 상세정보')
         
-        # 데이터 전처리 및 병합
-        merged_df = df1.merge(df2, on=['투자계약 구분', '투자계약일', '업체명', '상품명', '상품유형'], how='left')
-        all_data.append(merged_df)
-    
-    final_df = pd.concat(all_data, ignore_index=True)
+        # 중복 제거 및 병합
+        df1_unique = df1.drop_duplicates(subset=['업체명', '상품명'])
+        all_data.append((df1_unique, df2))
     
     # 업체명 기준 그룹화
-    grouped = final_df.groupby('업체명')
+    company_dict = {company: df1 for df1, _ in all_data for company in df1['업체명'].unique()}
+    df2_combined = pd.concat([df2 for _, df2 in all_data], ignore_index=True)
     
-    for company, company_group in grouped:
+    for company in company_dict.keys():
         if st.button(company, key=f'company_{company}'):
             st.session_state.selected_company = company
     
     if st.session_state.selected_company:
-        selected_group = grouped.get_group(st.session_state.selected_company)
-        product_grouped = selected_group.groupby('상품명')
+        df1_selected = company_dict[st.session_state.selected_company]
+        product_dict = {product: df2_combined[df2_combined['상품명'] == product] for product in df1_selected['상품명'].unique()}
         
-        for product, product_group in product_grouped:
+        for product in product_dict.keys():
             with st.expander(product):
-                st.dataframe(product_group)
+                st.dataframe(product_dict[product])
