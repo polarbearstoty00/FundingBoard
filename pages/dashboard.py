@@ -50,7 +50,7 @@ if st.session_state.uploaded_files:
         additional_columns = ['투자계약일', '상품유형']
         
         # 모든 필요한 컬럼이 존재하는지 확인
-        for col in required_columns + additional_columns:
+        for col in required_columns:
             if col not in df1_combined.columns:
                 st.error(f"'{col}' 컬럼이 데이터에 존재하지 않습니다.")
         
@@ -109,7 +109,19 @@ if st.session_state.uploaded_files:
                     ]
                     
                     if not df_product_details.empty:
-                        st.dataframe(df_product_details)
+                        # 삭제할 열 목록
+                        columns_to_drop = ['투자계약구분', '투자계약일', '업체명', '상품명', '상품유형', '파일명']
+                        
+                        # 실제 존재하는 열만 삭제
+                        existing_columns_to_drop = [col for col in columns_to_drop if col in df_product_details.columns]
+                        
+                        # 화면에 표시할 데이터프레임 준비 (필터링된 열만 표시)
+                        display_df = df_product_details.drop(columns=existing_columns_to_drop)
+                        
+                        # 인덱스 재설정 (인덱스 열 제거)
+                        display_df = display_df.reset_index(drop=True)
+                        
+                        st.dataframe(display_df)
                     else:
                         st.info(f"'{product}' 상품의 회차 정보가 없습니다.")
     else:
