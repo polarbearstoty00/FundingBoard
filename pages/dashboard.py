@@ -110,7 +110,7 @@ if st.session_state.uploaded_files:
                     
                     if not df_product_details.empty:
                         # 삭제할 열 목록
-                        columns_to_drop = ['투자계약 구분', '투자계약일', '업체명', '상품명', '상품유형', '파일명']
+                        columns_to_drop = ['투자계약구분', '투자계약일', '업체명', '상품명', '상품유형', '파일명']
                         
                         # 실제 존재하는 열만 삭제
                         existing_columns_to_drop = [col for col in columns_to_drop if col in df_product_details.columns]
@@ -118,10 +118,15 @@ if st.session_state.uploaded_files:
                         # 화면에 표시할 데이터프레임 준비 (필터링된 열만 표시)
                         display_df = df_product_details.drop(columns=existing_columns_to_drop)
                         
-                        # 인덱스 재설정 (인덱스 열 제거)
-                        display_df = display_df.reset_index(drop=True)
+                        # '회차' 열을 첫 번째 열로 이동 (있을 경우)
+                        if '회차' in display_df.columns:
+                            회차_column = display_df['회차']
+                            display_df = display_df.drop(columns=['회차'])
+                            # 회차 열을 첫 번째로 삽입
+                            display_df.insert(0, '회차', 회차_column)
                         
-                        st.dataframe(display_df)
+                        # 인덱스 숨기기 (hide_index=True)
+                        st.dataframe(display_df, hide_index=True)
                     else:
                         st.info(f"'{product}' 상품의 회차 정보가 없습니다.")
     else:
