@@ -67,10 +67,19 @@ if st.session_state.uploaded_files:
                         }))
                         
                         df_product_detail = df_detail[(df_detail['업체명'] == company) & (df_detail['상품명'] == product)]
-                        sheet_data.append(df_product_detail[['회차', '지급일', '지급원금', '지급이자', '연체이자', '수수료(0)', '실제지급액']])
                         
-                    final_df = pd.concat(sheet_data, ignore_index=True)
-                    final_df.to_excel(writer, sheet_name=company[:31], index=False)
+                        # 지급 완료 및 예정 데이터 분리
+                        df_paid = df_product_detail[df_product_detail['실제 지급일'].notna()][['회차', '실제 지급일', '지급원금(원)', '지급이자(원)', '연체이자(원)', '실제 지급금액(원)']]
+                        df_paid.rename(columns={'실제 지급일': '지급일'}, inplace=True)
+                        
+                        df_scheduled = df_product_detail[df_product_detail['실제 지급일'].isna() & df_product_detail['예정지급일'].notna()][['회차', '예정지급일', '예정 지급원금(원)', '예정 지급이자(원)']]
+                        df_scheduled.rename(columns={'예정지급일': '지급일', '예정 지급원금(원)': '지급원금(원)', '예정 지급이자(원)': '지급이자(원)'}, inplace=True)
+                        
+                        final_df = pd.concat([df_paid, df_scheduled], ignore_index=True)
+                        sheet_data.append(final_df)
+                    
+                    final_sheet = pd.concat(sheet_data, ignore_index=True)
+                    final_sheet.to_excel(writer, sheet_name=company[:31], index=False)
         
         writer.close()
         excel_data.seek(0)
