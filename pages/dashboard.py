@@ -110,7 +110,7 @@ if st.session_state.uploaded_files:
                     
                     if not df_product_details.empty:
                         # 삭제할 열 목록
-                        columns_to_drop = ['투자계약구분', '투자계약일', '업체명', '상품명', '상품유형', '파일명']
+                        columns_to_drop = ['투자계약 구분', '투자계약일', '업체명', '상품명', '상품유형', '파일명']
                         
                         # 실제 존재하는 열만 삭제
                         existing_columns_to_drop = [col for col in columns_to_drop if col in df_product_details.columns]
