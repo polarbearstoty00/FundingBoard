@@ -31,6 +31,9 @@ if st.session_state.uploaded_files:
     # 업체명 기준 그룹화
     grouped = final_df.groupby('업체명')
     
-    for name, group in grouped:
-        with st.expander(name):
-            st.write(group)
+    for company, company_group in grouped:
+        with st.expander(company):
+            product_grouped = company_group.groupby('상품명')
+            for product, product_group in product_grouped:
+                with st.expander(product):
+                    st.write(product_group)
