@@ -59,8 +59,8 @@ if st.session_state.uploaded_files:
         # 업체명 리스트 생성
         company_list = df1_unique['업체명'].unique()
         
-        # 업체 선택 옵션 (버튼 대신 selectbox 사용)
-        selected_company = st.selectbox(
+        # 업체 선택 옵션
+        selected_company = st.radio(
             "업체 선택", 
             options=company_list,
             index=0 if company_list.size > 0 else None,
