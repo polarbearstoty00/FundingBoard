@@ -43,4 +43,4 @@ if st.session_state.uploaded_files:
                 if selected:
                     if key not in st.session_state.selected_products:
                         st.session_state.selected_products[key] = product_group
-                    st.write(st.session_state.selected_products[key])
+                    st.table(st.session_state.selected_products[key])
