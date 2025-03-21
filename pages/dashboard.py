@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+st.set_page_config(page_title="P2P 투자 관리", layout="wide")
+
 # 업로드된 파일을 저장할 세션 상태 초기화
 if 'uploaded_files' not in st.session_state:
     st.session_state.uploaded_files = []
