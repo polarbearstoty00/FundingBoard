@@ -3,6 +3,8 @@ import pandas as pd
 
 st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 
+st.title('엑셀 파일 병합')
+
 # 업로드된 파일을 저장할 세션 상태 초기화
 if 'uploaded_files' not in st.session_state:
     st.session_state.uploaded_files = []
@@ -17,23 +19,18 @@ if 'processed_data' not in st.session_state:
 uploaded_files = st.file_uploader("엑셀 파일 업로드", type=["xls", "xlsx"], accept_multiple_files=True)
 
 # 실행 버튼
-run_button = st.button("데이터 분석 실행")
+run_button = st.button("실행")
 
 # 파일이 업로드되고 실행 버튼이 눌렸을 때만 처리
 if run_button and uploaded_files:
-    # 세션 상태 초기화 (이전 데이터 삭제)
-    st.session_state.uploaded_files = []
-    
-    # 새 파일 추가
+    # 기존 파일 목록 유지하면서 새 파일 추가
     st.session_state.uploaded_files.extend(uploaded_files)
     
     # 처리 상태 업데이트
     st.session_state.processed_data = True
     
-    st.success("데이터 분석이 완료되었습니다!")
-
-st.title('엑셀 파일 병합')
-
+    st.success("데이터 반영이 완료되었습니다!")
+    
 # 데이터 처리 및 표시
 if st.session_state.uploaded_files:
     df1_list = []
