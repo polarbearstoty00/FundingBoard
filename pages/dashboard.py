@@ -45,9 +45,19 @@ if st.session_state.uploaded_files:
         df1_combined = pd.concat(df1_list, ignore_index=True)
         df2_combined = pd.concat(df2_list, ignore_index=True)
         
-        # 업체명, 상품명, 회차번호를 기준으로 중복 제거
-        # 기존 세부 투자내역 시트에서 업체명과 상품명 기준으로 중복 제거
-        df1_unique = df1_combined[['업체명', '상품명']].drop_duplicates()
+        # 필요한 모든 컬럼 확인
+        required_columns = ['업체명', '상품명']
+        additional_columns = ['투자계약일', '상품유형']
+        
+        # 모든 필요한 컬럼이 존재하는지 확인
+        for col in required_columns + additional_columns:
+            if col not in df1_combined.columns:
+                st.error(f"'{col}' 컬럼이 데이터에 존재하지 않습니다.")
+        
+        # 업체명과 상품명 기준으로 중복 제거하되, 추가 정보 컬럼도 유지
+        display_columns = required_columns.copy()
+        display_columns.extend([col for col in additional_columns if col in df1_combined.columns])
+        df1_unique = df1_combined[display_columns].drop_duplicates(subset=['업체명', '상품명'])
         
         # 회차별 상세정보에서 업체명, 상품명, 회차번호 기준으로 중복 제거
         if '회차' in df2_combined.columns:
@@ -59,12 +69,13 @@ if st.session_state.uploaded_files:
         # 업체명 리스트 생성
         company_list = df1_unique['업체명'].unique()
         
-        # 업체 선택 옵션
+        # 업체 선택 옵션 (라디오 버튼 사용)
         selected_company = st.radio(
             "업체 선택", 
             options=company_list,
-            index=0 if company_list.size > 0 else None,
-            key='company_selector'
+            index=0 if len(company_list) > 0 else None,
+            key='company_selector',
+            horizontal=True  # 수평으로 배치
         )
         
         st.session_state.selected_company = selected_company
@@ -75,8 +86,22 @@ if st.session_state.uploaded_files:
             # 선택된 업체의 상품 필터링
             df1_selected = df1_unique[df1_unique['업체명'] == st.session_state.selected_company]
             
-            for product in df1_selected['상품명'].unique():
-                with st.expander(product):
+            for _, row in df1_selected.iterrows():
+                product = row['상품명']
+                
+                # 투자계약일과 상품유형 정보 추가
+                display_info = f"{product}"
+                
+                if '투자계약일' in row and pd.notna(row['투자계약일']):
+                    contract_date = row['투자계약일']
+                    if isinstance(contract_date, pd.Timestamp):
+                        contract_date = contract_date.strftime('%Y-%m-%d')
+                    display_info += f" | 계약일: {contract_date}"
+                
+                if '상품유형' in row and pd.notna(row['상품유형']):
+                    display_info += f" | 유형: {row['상품유형']}"
+                
+                with st.expander(display_info):
                     # 두 번째 시트에서 업체명과 상품명 기준으로 필터링하여 회차 내역 표시
                     df_product_details = df2_unique[
                         (df2_unique['상품명'] == product) & 
