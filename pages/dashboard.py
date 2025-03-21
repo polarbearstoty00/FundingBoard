@@ -27,22 +27,25 @@ if st.session_state.uploaded_files:
         df2 = pd.read_excel(xls, sheet_name='세부 투자내역(투자진행중) 회차별 상세정보')
         
         # 첫 번째 시트: 중복 제거 (업체명, 상품명 기준)
-        df1_unique = df1[['업체명', '상품명']].drop_duplicates()
+        df1_unique = df1[['업체명', '상품명']]
         all_data.append((df1_unique, df2))
     
-    # 업체명 기준 그룹화
-    company_dict = {company: df1 for df1, _ in all_data for company in df1['업체명'].unique()}
+    # 모든 파일을 합친 후 중복 제거
+    df1_combined = pd.concat([df1 for df1, _ in all_data], ignore_index=True).drop_duplicates()
     df2_combined = pd.concat([df2 for _, df2 in all_data], ignore_index=True)
     
-    for company in company_dict.keys():
+    # 업체명 리스트 생성
+    company_list = df1_combined['업체명'].unique()
+    
+    for company in company_list:
         if st.button(company, key=f'company_{company}'):
             st.session_state.selected_company = company
     
     if st.session_state.selected_company:
-        df1_selected = company_dict[st.session_state.selected_company]
+        df1_selected = df1_combined[df1_combined['업체명'] == st.session_state.selected_company]
         
         for product in df1_selected['상품명'].unique():
             with st.expander(product):
-                # 두 번째 시트에서 상품명 기준으로 필터링하여 회차 내역 표시
-                df_product_details = df2_combined[df2_combined['상품명'] == product]
+                # 두 번째 시트에서 업체명과 상품명 기준으로 필터링하여 회차 내역 표시
+                df_product_details = df2_combined[(df2_combined['상품명'] == product) & (df2_combined['업체명'] == st.session_state.selected_company)]
                 st.dataframe(df_product_details)
