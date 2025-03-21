@@ -32,8 +32,10 @@ if st.session_state.uploaded_files:
     grouped = final_df.groupby('업체명')
     
     for company, company_group in grouped:
-        with st.expander(company):
+        if st.checkbox(company, key=f'company_{company}'):
             product_grouped = company_group.groupby('상품명')
-            for product, product_group in product_grouped:
-                with st.expander(product):
-                    st.write(product_group)
+            product_list = list(product_grouped.groups.keys())
+            selected_product = st.selectbox(f"{company}의 상품 선택", product_list, key=f'product_{company}')
+            
+            if selected_product:
+                st.write(product_grouped.get_group(selected_product))
