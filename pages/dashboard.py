@@ -10,15 +10,29 @@ if 'selected_products' not in st.session_state:
     st.session_state.selected_products = {}
 if 'selected_company' not in st.session_state:
     st.session_state.selected_company = None
-
-st.title('엑셀 파일 병합')
+if 'processed_data' not in st.session_state:
+    st.session_state.processed_data = False
 
 # 파일 업로드 기능 (여러 개 가능)
 uploaded_files = st.file_uploader("엑셀 파일 업로드", type=["xls", "xlsx"], accept_multiple_files=True)
-if uploaded_files:
-    # 새로 업로드된 파일만 추가
-    st.session_state.uploaded_files.extend([file for file in uploaded_files 
-                                           if file.name not in [existing.name for existing in st.session_state.uploaded_files]])
+
+# 실행 버튼
+run_button = st.button("데이터 분석 실행")
+
+# 파일이 업로드되고 실행 버튼이 눌렸을 때만 처리
+if run_button and uploaded_files:
+    # 세션 상태 초기화 (이전 데이터 삭제)
+    st.session_state.uploaded_files = []
+    
+    # 새 파일 추가
+    st.session_state.uploaded_files.extend(uploaded_files)
+    
+    # 처리 상태 업데이트
+    st.session_state.processed_data = True
+    
+    st.success("데이터 분석이 완료되었습니다!")
+
+st.title('엑셀 파일 병합')
 
 # 데이터 처리 및 표시
 if st.session_state.uploaded_files:
