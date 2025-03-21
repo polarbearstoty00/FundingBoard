@@ -34,7 +34,3 @@ if st.session_state.uploaded_files:
     for name, group in grouped:
         with st.expander(name):
             st.write(group)
-
-# 닫기 버튼 (파일 유지)
-if st.button("닫기"):
-    st.success("파일 목록은 유지됩니다.")
