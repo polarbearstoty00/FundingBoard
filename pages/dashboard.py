@@ -36,10 +36,11 @@ if st.session_state.uploaded_files:
     for company, company_group in grouped:
         with st.expander(company):
             product_grouped = company_group.groupby('상품명')
-            for product in product_grouped.groups.keys():
+            for product, product_group in product_grouped:
                 key = f'product_{company}_{product}'
-                selected = st.checkbox(product, key=key, value=st.session_state.selected_products.get(key, False))
-                st.session_state.selected_products[key] = selected
-
+                selected = st.checkbox(product, key=key)
+                
                 if selected:
-                    st.write(product_grouped.get_group(product))
+                    if key not in st.session_state.selected_products:
+                        st.session_state.selected_products[key] = product_group
+                    st.write(st.session_state.selected_products[key])
