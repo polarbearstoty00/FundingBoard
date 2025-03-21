@@ -11,7 +11,7 @@ if 'selected_products' not in st.session_state:
 if 'selected_company' not in st.session_state:
     st.session_state.selected_company = None
 
-st.title('P2P 투자 내역 대시보드')
+st.title('엑셀 파일 병합')
 
 # 파일 업로드 기능 (여러 개 가능)
 uploaded_files = st.file_uploader("엑셀 파일 업로드", type=["xls", "xlsx"], accept_multiple_files=True)
@@ -28,15 +28,28 @@ if st.session_state.uploaded_files:
     for file in st.session_state.uploaded_files:
         try:
             xls = pd.ExcelFile(file)
-            df1 = pd.read_excel(xls, sheet_name='세부 투자내역(투자진행중)')
-            df2 = pd.read_excel(xls, sheet_name='세부 투자내역(투자진행중) 회차별 상세정보')
-            
-            # 각 데이터프레임에 고유 식별자를 추가하여 나중에 중복 확인 시 사용
-            df1['파일명'] = file.name
-            df2['파일명'] = file.name
-            
-            df1_list.append(df1)
-            df2_list.append(df2)
+
+            # 가능한 시트명 목록 정의
+            df1_sheets = ['세부 투자내역(투자진행중)', '세부 투자내역(투자종료)', '투자내역']
+            df2_sheets = ['세부 투자내역(투자진행중) 회차별 상세정보', '세부 투자내역(투자종료) 회차별 상세정보', '회차별 상세정보']
+
+            # 첫 번째로 존재하는 시트 선택
+            sheet_main = next((name for name in df1_sheets if name in xls.sheet_names), None)
+            sheet_detail = next((name for name in df2_sheets if name in xls.sheet_names), None)
+
+            if sheet_main and sheet_detail:
+                df1 = pd.read_excel(xls, sheet_name=sheet_main)
+                df2 = pd.read_excel(xls, sheet_name=sheet_detail)
+
+                # 파일명 추가하여 중복 확인 시 사용
+                df1['파일명'] = file.name
+                df2['파일명'] = file.name
+
+                df1_list.append(df1)
+                df2_list.append(df2)
+            else:
+                st.warning(f"파일 '{file.name}'에서 적절한 시트를 찾을 수 없음.")
+
         except Exception as e:
             st.error(f"파일 '{file.name}' 처리 중 오류 발생: {e}")
     
