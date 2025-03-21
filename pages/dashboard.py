@@ -26,8 +26,8 @@ if st.session_state.uploaded_files:
         df1 = pd.read_excel(xls, sheet_name='세부 투자내역(투자진행중)')
         df2 = pd.read_excel(xls, sheet_name='세부 투자내역(투자진행중) 회차별 상세정보')
         
-        # 중복 제거 및 병합
-        df1_unique = df1.drop_duplicates(subset=['업체명', '상품명'])
+        # 첫 번째 시트: 중복 제거 (업체명, 상품명 기준)
+        df1_unique = df1[['업체명', '상품명']].drop_duplicates()
         all_data.append((df1_unique, df2))
     
     # 업체명 기준 그룹화
@@ -40,8 +40,9 @@ if st.session_state.uploaded_files:
     
     if st.session_state.selected_company:
         df1_selected = company_dict[st.session_state.selected_company]
-        product_dict = {product: df2_combined[df2_combined['상품명'] == product] for product in df1_selected['상품명'].unique()}
         
-        for product in product_dict.keys():
+        for product in df1_selected['상품명'].unique():
             with st.expander(product):
-                st.dataframe(product_dict[product])
+                # 두 번째 시트에서 상품명 기준으로 필터링하여 회차 내역 표시
+                df_product_details = df2_combined[df2_combined['상품명'] == product]
+                st.dataframe(df_product_details)
