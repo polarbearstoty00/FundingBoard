@@ -8,6 +8,8 @@ if 'uploaded_files' not in st.session_state:
     st.session_state.uploaded_files = []
 if 'selected_products' not in st.session_state:
     st.session_state.selected_products = {}
+if 'selected_company' not in st.session_state:
+    st.session_state.selected_company = None
 
 st.title('P2P 투자 내역 대시보드')
 
@@ -34,13 +36,13 @@ if st.session_state.uploaded_files:
     grouped = final_df.groupby('업체명')
     
     for company, company_group in grouped:
-        with st.expander(company):
-            product_grouped = company_group.groupby('상품명')
-            for product, product_group in product_grouped:
-                key = f'product_{company}_{product}'
-                selected = st.checkbox(product, key=key)
-                
-                if selected:
-                    if key not in st.session_state.selected_products:
-                        st.session_state.selected_products[key] = product_group
-                    st.table(st.session_state.selected_products[key])
+        if st.button(company, key=f'company_{company}'):
+            st.session_state.selected_company = company
+    
+    if st.session_state.selected_company:
+        selected_group = grouped.get_group(st.session_state.selected_company)
+        product_grouped = selected_group.groupby('상품명')
+        
+        for product, product_group in product_grouped:
+            with st.expander(product):
+                st.dataframe(product_group)
