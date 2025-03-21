@@ -6,6 +6,8 @@ st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 # 업로드된 파일을 저장할 세션 상태 초기화
 if 'uploaded_files' not in st.session_state:
     st.session_state.uploaded_files = []
+if 'selected_products' not in st.session_state:
+    st.session_state.selected_products = {}
 
 st.title('P2P 투자 내역 대시보드')
 
@@ -35,5 +37,9 @@ if st.session_state.uploaded_files:
         with st.expander(company):
             product_grouped = company_group.groupby('상품명')
             for product in product_grouped.groups.keys():
-                if st.checkbox(product, key=f'product_{company}_{product}'):
+                key = f'product_{company}_{product}'
+                selected = st.checkbox(product, key=key, value=st.session_state.selected_products.get(key, False))
+                st.session_state.selected_products[key] = selected
+
+                if selected:
                     st.write(product_grouped.get_group(product))
