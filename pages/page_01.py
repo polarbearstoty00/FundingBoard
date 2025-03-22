@@ -109,21 +109,24 @@ if not st.session_state.get("edit_mode", False):
 
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
-        if st.button("➕ 추가"):
-            new_repayment = {"회차": len(st.session_state["new_repayments"]) + 1, "지급예정일": None, "원금": 0, "이자": 0, "세금": 0, "수수료": 0, "상환완료": False}
-            st.session_state["new_repayments"].append(new_repayment)
-            st.rerun()
-    with col2:
-        if st.button("➖ 삭제") and st.session_state["new_repayments"]:
-            st.session_state["new_repayments"].pop()
-            st.rerun()
+        btn_col1, btn_col2 = st.columns([1, 1])  # 내부에서 다시 컬럼 생성
 
+        with btn_col1:
+            if st.button("➕ 추가"):
+                new_repayment = {"회차": len(st.session_state["new_repayments"]) + 1, "지급예정일": None, "원금": 0, "이자": 0, "세금": 0, "수수료": 0, "상환완료": False}
+                st.session_state["new_repayments"].append(new_repayment)
+                st.rerun()
+        with btn_col2:
+            if st.button("➖ 삭제") and st.session_state["new_repayments"]:
+                st.session_state["new_repayments"].pop()
+                st.rerun()
+            
     save_col1, save_col2, save_col3 = st.columns([1, 1, 1])
     with save_col1:
         if st.button("💾 저장"):
             st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
             st.session_state["new_repayments"] = []
-            st.success("✅ 회차별 상환 내역이 저장되었습니다!")
+            st.success("ℹ️ 상세 내역이 저장되었습니다!")
             st.rerun()
 
     with save_col3:
