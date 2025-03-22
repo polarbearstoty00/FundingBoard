@@ -39,17 +39,30 @@ if st.session_state["current_page"] == "투자 내역 입력":
             # 페이지 이동
             st.switch_page("pages/page_01.py")
 
-# JavaScript 코드 추가
+# JavaScript 코드 (모든 selectbox에 적용)
 st.markdown(
     """
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        let selectBox = document.querySelector("select");
-        selectBox.addEventListener("keydown", function(event) {
-            if (event.key === "Backspace" || event.key === "Delete") {
-                event.preventDefault();
-            }
+        function disableBackspace() {
+            document.querySelectorAll("select").forEach(selectBox => {
+                selectBox.addEventListener("keydown", function(event) {
+                    if (event.key === "Backspace" || event.key === "Delete") {
+                        event.preventDefault();
+                    }
+                });
+            });
+        }
+
+        // 기존 selectbox에 적용
+        disableBackspace();
+
+        // MutationObserver로 새로운 selectbox에도 적용
+        let observer = new MutationObserver(() => {
+            disableBackspace();
         });
+
+        observer.observe(document.body, { childList: true, subtree: true });
     });
     </script>
     """,
