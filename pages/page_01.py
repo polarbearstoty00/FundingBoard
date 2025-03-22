@@ -4,10 +4,12 @@ import pandas as pd
 # 페이지 설정
 st.set_page_config(page_title="펀딩보드", layout="wide")
 
-# "🔙 이전 화면" 버튼 동작
+# "이전 화면" 버튼 동작
 if st.button("🔙 이전 화면"):
-    # 페이지 이동
-    st.switch_page("app.py")
+    if "repayment_data" in st.session_state:
+        del st.session_state["repayment_data"]
+    if "new_repayments" in st.session_state:
+        del st.session_state["new_repayments"]
 
 # 대시보드 상단 통계 섹션
 st.title("💰 회차별 상환 내역 입력")
