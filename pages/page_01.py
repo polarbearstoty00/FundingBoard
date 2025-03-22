@@ -140,4 +140,11 @@ if not st.session_state.get("edit_mode", False):
                 st.session_state.get("new_repayments", []).copy()
             )
             
+            # investment_data도 dashboard_investments 이름으로 복사하여 저장
+            if "investment_data" in st.session_state:
+                # 데이터프레임을 딕셔너리 리스트로 변환하여 저장
+                st.session_state["dashboard_investments"] = st.session_state["investment_data"].to_dict('records')
+            else:
+                st.session_state["dashboard_investments"] = []
+            
             st.switch_page("pages/page_02.py")
