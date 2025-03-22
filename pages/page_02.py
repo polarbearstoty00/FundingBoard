@@ -16,8 +16,8 @@ if st.button("🔙 메인 화면으로 돌아가기"):
 st.title("📊 P2P 투자 대시보드")
 
 # 투자 데이터가 있는 경우에만 대시보드 표시
-if "investment_data" in st.session_state and not st.session_state["investment_data"].empty:
-    investment_df = st.session_state["investment_data"]
+if "dashboard_repayments" in st.session_state and not st.session_state["dashboard_repayments"].empty:
+    investment_df = st.session_state["dashboard_repayments"]
     
     # 상단 통계 카드
     total_investment = investment_df["투자금액"].sum()
@@ -44,20 +44,20 @@ if "investment_data" in st.session_state and not st.session_state["investment_da
         st.dataframe(investment_df, use_container_width=True)
         
         # 상환 내역이 있는 경우 표시
-        if "repayment_data" in st.session_state and st.session_state["repayment_data"]:
+        if "dashboard_repayments" in st.session_state and st.session_state["dashboard_repayments"]:
             st.subheader("회차별 상환 내역")
             repayment_df = pd.DataFrame(st.session_state["repayment_data"])
             st.dataframe(repayment_df, use_container_width=True)
             
             # 상환 완료된 항목 수
-            completed_repayments = sum(item["상환완료"] for item in st.session_state["repayment_data"])
+            completed_repayments = sum(item["상환완료"] for item in st.session_state["dashboard_repayments"])
             total_repayments = len(st.session_state["repayment_data"])
             
             # 총 상환 금액 계산
-            total_principal = sum(item["원금"] for item in st.session_state["repayment_data"] if item["상환완료"])
-            total_interest = sum(item["이자"] for item in st.session_state["repayment_data"] if item["상환완료"])
-            total_tax = sum(item["세금"] for item in st.session_state["repayment_data"] if item["상환완료"])
-            total_fee = sum(item["수수료"] for item in st.session_state["repayment_data"] if item["상환완료"])
+            total_principal = sum(item["원금"] for item in st.session_state["dashboard_repayments"] if item["상환완료"])
+            total_interest = sum(item["이자"] for item in st.session_state["dashboard_repayments"] if item["상환완료"])
+            total_tax = sum(item["세금"] for item in st.session_state["dashboard_repayments"] if item["상환완료"])
+            total_fee = sum(item["수수료"] for item in st.session_state["dashboard_repayments"] if item["상환완료"])
             
             # 상환 내역 요약
             st.subheader("상환 내역 요약")
