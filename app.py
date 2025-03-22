@@ -153,4 +153,4 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
         # 대시보드로 이동 버튼
         with save_col2:
             if st.button("📊 대시보드로 이동"):
-                st.switch_page("dashboard_03.py")
+                st.switch_page("pages/dashboard_03.py")
