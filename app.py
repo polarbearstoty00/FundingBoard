@@ -30,7 +30,7 @@ if st.session_state["current_page"] == "투자 내역 입력":
         submitted = st.form_submit_button("저장")
 
         if submitted:
-            new_entry = pd.DataFrame([[platform, product, status, pd.to_datetime(date), amount, rate, period, loan_type]], 
+            new_entry = pd.DataFrame([[platform, product, status, pd.to_datetime(date).date(), amount, rate, period, loan_type]], 
                                      columns=["서비스명", "상품명", "상품상태", "투자일자", "투자금액", "수익률", "투자기간", "대출유형"])
             st.session_state["investment_data"] = pd.concat([st.session_state["investment_data"], new_entry], ignore_index=True)
 
