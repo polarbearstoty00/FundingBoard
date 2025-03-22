@@ -16,7 +16,8 @@ if st.button("🔙 메인 화면으로 돌아가기"):
 st.title("📊 P2P 투자 대시보드")
 
 if "dashboard_repayments" in st.session_state and st.session_state["dashboard_repayments"]:
-    investment_df = pd.DataFrame(st.session_state["dashboard_repayments"])
+    investment_df = pd.DataFrame(st.session_state["dashboard_repayments"])  # 리스트 → DataFrame 변환
+    st.write("📌 데이터프레임 확인:", investment_df.head())  # 첫 5개 행 출력
 
     # 상단 통계 카드
     total_investment = investment_df["투자금액"].sum()
