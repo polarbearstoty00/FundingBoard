@@ -11,6 +11,14 @@ if st.button("🔙 메인 화면으로 돌아가기"):
 # 대시보드 상단 통계 섹션
 st.title("회차별 상환 내역 입력")
 
+# ✅ 투자 내역 표시
+st.subheader("📊 투자 내역")
+
+if "investment_data" in st.session_state and not st.session_state["investment_data"].empty:
+    st.dataframe(st.session_state["investment_data"], hide_index=True)
+else:
+    st.warning("❌ 저장된 투자 내역이 없습니다. 먼저 투자 내역을 입력하세요.")
+
 st.subheader("📊 투자 내역")
 st.dataframe(st.session_state["investment_data"], hide_index=True)
     
@@ -126,4 +134,4 @@ st.dataframe(st.session_state["investment_data"], hide_index=True)
         # 대시보드로 이동 버튼
         with save_col2:
             if st.button("📊 대시보드로 이동"):
-                st.switch_page("pages/dashboard_03.py")
+                st.switch_page("pages/page_02.py")
