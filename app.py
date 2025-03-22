@@ -37,4 +37,4 @@ if st.session_state["current_page"] == "투자 내역 입력":
             st.success("✅ 투자 내역이 저장되었습니다! 회차별 내역 입력 페이지로 이동합니다.")
         
             # 페이지 이동
-            st.switch_page("pages/page_1")
+            st.switch_page("pages/page_01")
