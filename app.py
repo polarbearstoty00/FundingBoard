@@ -25,7 +25,7 @@ if st.session_state["current_page"] == "투자 내역 입력":
         amount = st.number_input("투자금액", min_value=0, step=10000)
         rate = st.number_input("수익률 (%)", min_value=0.0, step=0.1)
         period = st.number_input("투자기간 (개월)", min_value=1, step=1)
-        loan_type = st.selectbox("대출유형", ["부동산 담보", "어음·매출채권 담보", "기타 담보", "개인 신용", "법인 신용"])
+        loan_type = st.selectbox("대출유형", ["부동산 담보", "어음·매출채권 담보", "기타 담보", "개인 신용", "법인 신용", "부동산 PF"])
         
         submitted = st.form_submit_button("저장")
 
