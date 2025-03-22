@@ -15,27 +15,18 @@ if "edit_mode" not in st.session_state:
 st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 st.title("📌 P2P 투자 관리")
 
-# JavaScript로 Enter 키를 눌렀을 때 다음 입력 필드로 이동하도록 설정
+# JavaScript 코드 삽입: 엔터 키 폼 제출 방지
 st.markdown(
     """
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let inputs = document.querySelectorAll("input, select");
-            for (let i = 0; i < inputs.length; i++) {
-                inputs[i].addEventListener("keydown", function(event) {
-                    if (event.key === "Enter") {
-                        event.preventDefault();
-                        let nextIndex = i + 1;
-                        if (nextIndex < inputs.length) {
-                            inputs[nextIndex].focus();
-                        }
-                    }
-                });
+        document.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
             }
-        });
+        }, true);
     </script>
     """,
-    unsafe_allow_html=True,
+    unsafe_allow_html=True
 )
 
 if st.session_state["current_page"] == "투자 내역 입력":
