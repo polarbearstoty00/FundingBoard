@@ -15,8 +15,9 @@ if st.button("🔙 메인 화면으로 돌아가기"):
 # 대시보드 상단 통계 섹션
 st.title("📊 P2P 투자 대시보드")
 
-if "dashboard_repayments" in st.session_state and not st.session_state["dashboard_repayments"]:
+if "dashboard_repayments" in st.session_state and st.session_state["dashboard_repayments"]:
     investment_df = st.session_state["dashboard_repayments"]
+
 
     # 상단 통계 카드
     total_investment = investment_df["투자금액"].sum()
