@@ -18,7 +18,7 @@ st.title("📊 P2P 투자 대시보드")
 # 필요한 데이터 확인
 if "dashboard_repayments" not in st.session_state or not st.session_state["dashboard_repayments"]:
     st.info("📝 상환 내역이 없습니다. 먼저 상환 내역을 입력해주세요.")
-elif "dashboard_investments" not in st.session_state or st.session_state["dashboard_investments"]:
+elif "dashboard_investments" not in st.session_state or not st.session_state["dashboard_investments"]:
     st.info("📝 투자 내역이 없습니다. 먼저 투자 내역을 입력해주세요.")
 else:
     # 투자 데이터 로드
