@@ -10,6 +10,10 @@ if st.button("🔙 이전 화면"):
         del st.session_state["repayment_data"]
     if "new_repayments" in st.session_state:
         del st.session_state["new_repayments"]
+    if "investment_data" in st.session_state:
+        del st.session_state["investment_data"]
+
+    st.switch_page("app.py")
 
 # 대시보드 상단 통계 섹션
 st.title("💰 회차별 상환 내역 입력")
