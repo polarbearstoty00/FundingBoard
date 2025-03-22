@@ -27,7 +27,8 @@ if st.session_state["current_page"] == "투자 내역 입력":
         period = st.number_input("투자기간 (개월)", min_value=1, step=1)
         loan_type = st.text_input("대출유형")
         
-        submitted = st.form_submit_button("저장")
+        submitted = st.form_submit_button("저장"):
+            st.switch_page("pages/page_1.py")
         
         if submitted:
             new_entry = pd.DataFrame([[platform, product, status, date, amount, rate, period, loan_type]], 
