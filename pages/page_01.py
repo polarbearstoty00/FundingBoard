@@ -1,10 +1,18 @@
 import streamlit as st
 import pandas as pd
 
+# 페이지 설정
+st.set_page_config(page_title="P2P 투자 대시보드", layout="wide")
 
-elif st.session_state["current_page"] == "회차별 상환 내역 입력":
-    st.subheader("📊 투자 내역")
-    st.dataframe(st.session_state["investment_data"], hide_index=True)
+# 메인 화면으로 돌아가기 버튼
+if st.button("🔙 메인 화면으로 돌아가기"):
+    st.switch_page("app.py")
+
+# 대시보드 상단 통계 섹션
+st.title("회차별 상환 내역 입력")
+
+st.subheader("📊 투자 내역")
+st.dataframe(st.session_state["investment_data"], hide_index=True)
     
     st.subheader("💰 회차별 상환 내역 입력")
     
