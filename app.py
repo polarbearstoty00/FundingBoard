@@ -141,11 +141,13 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
                 st.session_state["new_repayments"].pop()
                 st.rerun()
         
-        if st.button("💾 저장"):
-            st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
-            st.session_state["new_repayments"] = []
-            st.success("✅ 회차별 상환 내역이 저장되었습니다!")
-            st.rerun()
+        save_col1, save_col2 = st.columns([1, 1])
+        with save_col1:
+            if st.button("💾 저장"):
+                st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
+                st.session_state["new_repayments"] = []
+                st.success("✅ 회차별 상환 내역이 저장되었습니다!")
+                st.rerun()
 
         # 다음 버튼 추가 - 대시보드 페이지로 이동
         with save_col2:
