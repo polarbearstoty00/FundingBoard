@@ -40,7 +40,7 @@ else:
         avg_interest_rate = 0
         
     if "상품상태" in investment_df.columns:
-        active_investments = investment_df[investment_df["상품상태"] == "투자 중"].shape[0]
+        active_investments = investment_df[investment_df["상품상태"] == "투자중"].shape[0]
         completed_investments = investment_df[investment_df["상품상태"] == "상환 완료"].shape[0]
     else:
         active_investments = 0
