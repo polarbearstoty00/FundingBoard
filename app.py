@@ -38,3 +38,20 @@ if st.session_state["current_page"] == "투자 내역 입력":
         
             # 페이지 이동
             st.switch_page("pages/page_01.py")
+
+# JavaScript 코드 추가
+st.markdown(
+    """
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let selectBox = document.querySelector("select");
+        selectBox.addEventListener("keydown", function(event) {
+            if (event.key === "Backspace" || event.key === "Delete") {
+                event.preventDefault();
+            }
+        });
+    });
+    </script>
+    """,
+    unsafe_allow_html=True
+)
