@@ -15,23 +15,9 @@ if "edit_mode" not in st.session_state:
 st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 st.title("📌 P2P 투자 관리")
 
-# JavaScript 코드 삽입: 엔터 키 폼 제출 방지
-st.markdown(
-    """
-    <script>
-        document.addEventListener("keydown", function(event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-            }
-        }, true);
-    </script>
-    """,
-    unsafe_allow_html=True
-)
-
 if st.session_state["current_page"] == "투자 내역 입력":
     # 투자 내역 입력 폼
-    with st.form("investment_form"):
+    with st.form("investment_form", enter_to_submit=False):
         platform = st.text_input("서비스명 (플랫폼명)")
         product = st.text_input("상품명")
         status = st.selectbox("상품상태", ["투자중", "상환완료", "연체"])
