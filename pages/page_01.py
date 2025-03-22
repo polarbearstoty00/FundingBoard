@@ -9,17 +9,15 @@ if st.button("🔙 이전 화면"):
     st.switch_page("app.py")
 
 # 대시보드 상단 통계 섹션
-st.title("회차별 상환 내역 입력")
+st.title("💰 회차별 상환 내역 입력")
 
-# ✅ 투자 내역 표시
+# 투자 내역 표시
 st.subheader("📊 투자 내역")
 
 if "investment_data" in st.session_state and not st.session_state["investment_data"].empty:
     st.dataframe(st.session_state["investment_data"], hide_index=True)
 else:
     st.warning("❌ 저장된 투자 내역이 없습니다. 먼저 투자 내역을 입력하세요.")
-
-st.subheader("💰 회차별 상환 내역 입력")
 
 # 저장된 회차별 상환 내역 표시
 if st.session_state.get("repayment_data"):
@@ -87,7 +85,7 @@ if st.session_state.get("edit_mode"):
 
 # 편집 모드가 아닐 때만 새로운 회차 추가 인터페이스 표시
 if not st.session_state.get("edit_mode", False):
-    st.subheader("➕ 새로운 회차 추가")
+    st.subheader("➕ 상세 내역 입력")
 
     if "new_repayments" not in st.session_state:
         st.session_state["new_repayments"] = []
