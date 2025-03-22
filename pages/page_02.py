@@ -22,7 +22,7 @@ elif "dashboard_investments" not in st.session_state or not st.session_state["da
     st.info("📝 투자 내역이 없습니다. 먼저 투자 내역을 입력해주세요.")
 else:
     # 투자 데이터 로드
-    investment_df = st.session_state["dashboard_investments"]
+    investment_df = pd.DataFrame(st.session_state["dashboard_investments"])
     
     # 상환 데이터 처리
     repayment_data = st.session_state["dashboard_repayments"]
