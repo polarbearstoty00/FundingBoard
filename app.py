@@ -15,6 +15,20 @@ if "edit_mode" not in st.session_state:
 st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 st.title("📌 P2P 투자 관리")
 
+# JavaScript로 Enter 키 입력 방지
+st.markdown(
+    """
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+            }
+        });
+    </script>
+    """,
+    unsafe_allow_html=True,
+)
+
 if st.session_state["current_page"] == "투자 내역 입력":
     # 투자 내역 입력 폼
     with st.form("investment_form"):
