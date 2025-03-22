@@ -5,7 +5,7 @@ import pandas as pd
 st.set_page_config(page_title="P2P 투자 대시보드", layout="wide")
 
 # 메인 화면으로 돌아가기 버튼
-if st.button("🔙 메인 화면으로 돌아가기"):
+if st.button("🔙 이전 화면"):
     st.switch_page("app.py")
 
 # 대시보드 상단 통계 섹션
