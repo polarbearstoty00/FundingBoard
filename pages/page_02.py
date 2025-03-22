@@ -16,9 +16,9 @@ if st.button("🔙 메인 화면으로 돌아가기"):
 st.title("📊 P2P 투자 대시보드")
 
 # 투자 데이터가 있는 경우에만 대시보드 표시
-if "dashboard_repayments" in st.session_state and not st.session_state["dashboard_repayments"]:
+if "dashboard_repayments" in st.session_state and st.session_state["dashboard_repayments"]:
     investment_df = st.session_state["dashboard_repayments"]
-    
+
     # 상단 통계 카드
     total_investment = investment_df["투자금액"].sum()
     avg_interest_rate = investment_df["수익률"].mean()
