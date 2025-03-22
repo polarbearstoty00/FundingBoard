@@ -132,4 +132,10 @@ if not st.session_state.get("edit_mode", False):
 
     with save_col3:
         if st.button("📊 대시보드로 이동"):
+            # ✅ 기존 데이터(rep)와 새로 입력한 데이터(new)를 합쳐서 저장
+            st.session_state["dashboard_repayments"] = (
+                st.session_state.get("repayment_data", []).copy() + 
+                st.session_state.get("new_repayments", []).copy()
+            )
+            
             st.switch_page("pages/page_02.py")
