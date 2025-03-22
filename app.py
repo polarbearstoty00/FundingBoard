@@ -27,13 +27,14 @@ if st.session_state["current_page"] == "투자 내역 입력":
         period = st.number_input("투자기간 (개월)", min_value=1, step=1)
         loan_type = st.text_input("대출유형")
         
-        submitted = st.form_submit_button("저장"):
-            st.switch_page("pages/page_1.py")
-        
+        submitted = st.form_submit_button("저장")
+
         if submitted:
-            new_entry = pd.DataFrame([[platform, product, status, date, amount, rate, period, loan_type]], 
+            new_entry = pd.DataFrame([[platform, product, status, pd.to_datetime(date), amount, rate, period, loan_type]], 
                                      columns=["서비스명", "상품명", "상품상태", "투자일자", "투자금액", "수익률", "투자기간", "대출유형"])
             st.session_state["investment_data"] = pd.concat([st.session_state["investment_data"], new_entry], ignore_index=True)
+
             st.success("✅ 투자 내역이 저장되었습니다! 회차별 내역 입력 페이지로 이동합니다.")
-            st.session_state["current_page"] = "회차별 상환 내역 입력"
-            st.rerun()
+        
+            # 페이지 이동
+            st.switch_page("pages/page_1")
