@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # 페이지 설정
-st.set_page_config(page_title="P2P 투자 대시보드", layout="wide")
+st.set_page_config(page_title="펀딩보드", layout="wide")
 
 # 메인 화면으로 돌아가기 버튼
 if st.button("🔙 이전 화면"):
@@ -118,7 +118,7 @@ if not st.session_state.get("edit_mode", False):
             st.session_state["new_repayments"].pop()
             st.rerun()
 
-    save_col1, save_col2 = st.columns([1, 1])
+    save_col1, save_col2, save_col3 = st.columns([1, 1, 1])
     with save_col1:
         if st.button("💾 저장"):
             st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
@@ -126,6 +126,6 @@ if not st.session_state.get("edit_mode", False):
             st.success("✅ 회차별 상환 내역이 저장되었습니다!")
             st.rerun()
 
-    with save_col2:
+    with save_col3:
         if st.button("📊 대시보드로 이동"):
             st.switch_page("pages/page_02.py")
