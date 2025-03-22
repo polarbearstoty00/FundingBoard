@@ -139,7 +139,7 @@ with tab2:
         with col2:
             if st.button("➖ 삭제") and st.session_state["new_repayments"]:
                 st.session_state["new_repayments"].pop()
-                st.experimental_rerun()
+                st.rerun()
         
         save_col1, save_col2 = st.columns([1, 1])
         with save_col1:
@@ -147,7 +147,7 @@ with tab2:
                 st.session_state["repayment_data"].extend(st.session_state["new_repayments"])
                 st.session_state["new_repayments"] = []
                 st.success("✅ 회차별 상환 내역이 저장되었습니다!")
-                st.experimental_rerun()
+                st.rerun()
         
         # 대시보드로 이동 버튼
         with save_col2:
