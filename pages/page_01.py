@@ -113,7 +113,7 @@ if not st.session_state.get("edit_mode", False):
             new_repayment = {"회차": len(st.session_state["new_repayments"]) + 1, "지급예정일": None, "원금": 0, "이자": 0, "세금": 0, "수수료": 0, "상환완료": False}
             st.session_state["new_repayments"].append(new_repayment)
             st.rerun()
-    with col1:
+    with col2:
         if st.button("➖ 삭제") and st.session_state["new_repayments"]:
             st.session_state["new_repayments"].pop()
             st.rerun()
