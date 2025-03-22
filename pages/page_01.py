@@ -150,5 +150,13 @@ if not st.session_state.get("edit_mode", False):
                 st.session_state["dashboard_investments"] = st.session_state["investment_data"].to_dict('records')
             else:
                 st.session_state["dashboard_investments"] = []
+
+            # 화면에 작성되었던 데이터 삭제
+            if "repayment_data" in st.session_state:
+                del st.session_state["repayment_data"]
+            if "new_repayments" in st.session_state:
+                del st.session_state["new_repayments"]
+            if "investment_data" in st.session_state:
+                del st.session_state["investment_data"]
             
             st.switch_page("pages/page_02.py")
