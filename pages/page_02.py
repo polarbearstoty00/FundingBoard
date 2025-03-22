@@ -41,7 +41,7 @@ else:
         
     if "상품상태" in investment_df.columns:
         active_investments = investment_df[investment_df["상품상태"] == "투자중"].shape[0]
-        completed_investments = investment_df[investment_df["상품상태"] == "상환 완료"].shape[0]
+        completed_investments = investment_df[investment_df["상품상태"] == "상환완료"].shape[0]
     else:
         active_investments = 0
         completed_investments = 0
