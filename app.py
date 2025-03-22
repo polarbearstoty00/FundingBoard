@@ -1,5 +1,9 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import numpy as np
+from datetime import datetime, timedelta
 
 # 투자 내역을 저장할 데이터 프레임 초기화
 if "investment_data" not in st.session_state:
@@ -13,6 +17,11 @@ if "edit_mode" not in st.session_state:
 
 st.set_page_config(page_title="P2P 투자 관리", layout="wide")
 st.title("📌 P2P 투자 관리")
+
+# 페이지 네비게이션 함수
+def navigate_to(page):
+    st.session_state["current_page"] = page
+    st.rerun()
 
 if st.session_state["current_page"] == "투자 내역 입력":
     # 투자 내역 입력 폼
@@ -148,7 +157,7 @@ elif st.session_state["current_page"] == "회차별 상환 내역 입력":
                 st.session_state["new_repayments"] = []
                 st.success("✅ 회차별 상환 내역이 저장되었습니다!")
                 st.rerun()
-
+        
         # 다음 버튼 추가 - 대시보드 페이지로 이동
         with save_col2:
             if st.button("📊 대시보드로 이동"):
