@@ -113,15 +113,12 @@ if "investment_data" in st.session_state and not st.session_state["investment_da
                            nbins=10)
         st.plotly_chart(fig5, use_container_width=True)
         
-        # 추가적인 차트: 투자기간 vs 수익률 산점도
-        if "투자기간" in investment_df.columns:
-            fig6 = px.scatter(investment_df, x="투자기간", y="수익률", 
-                             size="투자금액", color="서비스명",
-                             hover_name="상품명", 
-                             title="투자기간 vs 수익률 관계",
-                             labels={"투자기간": "투자기간 (개월)", "수익률": "수익률 (%)"},
-                             size_max=30)
-            st.plotly_chart(fig6, use_container_width=True)
-        
+        # 추가적인 차트: 투자기간 vs 수익률
+        fig6 = px.scatter(investment_df, x="투자기간", y="수익률",
+                         title="투자기간 vs 수익률",
+                         # size 파라미터가 문제의 원인
+                         size=investment_df["투자금액"].astype(float),  # narwhals Series를 float로 변환
+                         hover_data=["서비스명", "상품명"])
+        st.plotly_chart(fig6, use_container_width=True)
 else:
     st.info("📝 투자 내역이 없습니다. 메인 화면에서 데이터를 입력해주세요.")
