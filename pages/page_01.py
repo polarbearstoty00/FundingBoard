@@ -101,11 +101,11 @@ if not st.session_state.get("edit_mode", False):
         with col3:
             repayment["원금"] = st.number_input("원금", min_value=0, step=10000, key=f"principal_{i}", value=repayment["원금"])
         with col4:
-            repayment["이자"] = st.number_input("이자", min_value=0, step=1000, key=f"interest_{i}", value=repayment["이자"])
+            repayment["이자"] = st.number_input("이자", min_value=0, step=10, key=f"interest_{i}", value=repayment["이자"])
         with col5:
-            repayment["세금"] = st.number_input("세금", min_value=0, step=100, key=f"tax_{i}", value=repayment["세금"])
+            repayment["세금"] = st.number_input("세금", min_value=0, step=10, key=f"tax_{i}", value=repayment["세금"])
         with col6:
-            repayment["수수료"] = st.number_input("수수료", min_value=0, step=100, key=f"fee_{i}", value=repayment["수수료"])
+            repayment["수수료"] = st.number_input("수수료", min_value=0, step=10, key=f"fee_{i}", value=repayment["수수료"])
         with col7:
             repayment["상환완료"] = st.checkbox("완료", key=f"repayment_status_{i}", value=repayment["상환완료"])
 
