@@ -37,7 +37,7 @@ with tab1:
                                     columns=["서비스명", "상품명", "상품상태", "투자일자", "투자금액", "수익률", "투자기간", "대출유형"])
             st.session_state["investment_data"] = pd.concat([st.session_state["investment_data"], new_entry], ignore_index=True)
             st.success("✅ 투자 내역이 저장되었습니다!")
-            st.experimental_rerun()
+            st.rerun()
 
 with tab2:
     st.subheader("📊 투자 내역")
